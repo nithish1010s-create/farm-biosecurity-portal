@@ -8,7 +8,6 @@ function Navbar() {
   const location = useLocation();
 
   const user = JSON.parse(localStorage.getItem('user') || '{}');
-  const isLoggedIn = localStorage.getItem('token');
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -16,7 +15,6 @@ function Navbar() {
     navigate('/login');
   };
 
-  // Get dashboard path based on role
   const getDashboardPath = () => {
     const role = user?.role;
     if (role === 'admin') return '/admin/dashboard';
@@ -25,7 +23,6 @@ function Navbar() {
     return '/login';
   };
 
-  // Don't show navbar on login/register pages
   if (location.pathname === '/login' || location.pathname === '/register') {
     return null;
   }
@@ -33,12 +30,9 @@ function Navbar() {
   return (
     <nav style={styles.navbar}>
       <div style={styles.container}>
-        {/* Logo */}
         <div style={styles.logo} onClick={() => navigate(getDashboardPath())}>
           🐓 Farm Portal
         </div>
-
-        {/* Navigation Links */}
         <div style={styles.links}>
           <button
             style={{
@@ -49,7 +43,6 @@ function Navbar() {
           >
             📊 Dashboard
           </button>
-
           <button
             style={{
               ...styles.navLink,
@@ -59,11 +52,9 @@ function Navbar() {
           >
             👤 Profile
           </button>
-
           <span style={styles.userBadge}>
             👋 {user?.name || 'User'}
           </span>
-
           <button onClick={handleLogout} style={styles.logoutBtn}>
             🚪 Logout
           </button>
@@ -94,9 +85,6 @@ const styles = {
     fontSize: '22px',
     fontWeight: 'bold',
     cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
   },
   links: {
     display: 'flex',
@@ -110,7 +98,6 @@ const styles = {
     borderRadius: '4px',
     cursor: 'pointer',
     fontSize: '14px',
-    transition: 'all 0.3s',
     backgroundColor: 'transparent',
   },
   userBadge: {

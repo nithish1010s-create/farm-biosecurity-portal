@@ -6,7 +6,6 @@ import { getMyFarms, getComplianceScore, getAlerts } from '../services/api';
 import ChecklistForm from '../components/farmer/ChecklistForm';
 
 function FarmerDashboard() {
-  const [user, setUser] = useState(null);
   const [farms, setFarms] = useState([]);
   const [alerts, setAlerts] = useState([]);
   const [compliance, setCompliance] = useState(null);
@@ -21,24 +20,20 @@ function FarmerDashboard() {
       navigate('/login');
       return;
     }
-    setUser(JSON.parse(userData));
     loadData();
   }, [navigate]);
 
   const loadData = async () => {
     try {
-      // Get farms
       const farmsRes = await getMyFarms();
       setFarms(farmsRes.data.farms || []);
 
-      // Get compliance for first farm
       if (farmsRes.data.farms && farmsRes.data.farms.length > 0) {
         const farmId = farmsRes.data.farms[0].id;
         const complianceRes = await getComplianceScore(farmId);
         setCompliance(complianceRes.data);
       }
 
-      // Get alerts
       const alertsRes = await getAlerts();
       setAlerts(alertsRes.data.alerts || []);
     } catch (error) {
@@ -72,7 +67,6 @@ function FarmerDashboard() {
 
   return (
     <div style={styles.container}>
-      {/* Stats Cards */}
       <div style={styles.statsContainer}>
         <div style={styles.statCard}>
           <h3>🏥 Health Score</h3>
@@ -100,7 +94,6 @@ function FarmerDashboard() {
         </div>
       </div>
 
-      {/* Submit Checklist Button */}
       {farms.length > 0 && (
         <button 
           onClick={() => {
@@ -116,7 +109,6 @@ function FarmerDashboard() {
         <p style={styles.noFarmMsg}>⚠️ No farms registered. Contact admin to add a farm.</p>
       )}
 
-      {/* My Farms Section */}
       <div style={styles.section}>
         <h2 style={styles.sectionTitle}>🏠 My Farms</h2>
         {farms.length === 0 ? (
@@ -144,7 +136,6 @@ function FarmerDashboard() {
         )}
       </div>
 
-      {/* Alerts Section */}
       <div style={styles.section}>
         <h2 style={styles.sectionTitle}>🔔 Recent Alerts</h2>
         {alerts.length === 0 ? (
@@ -167,7 +158,6 @@ function FarmerDashboard() {
         )}
       </div>
 
-      {/* Checklist Modal */}
       {showChecklist && selectedFarm && (
         <ChecklistForm
           farmId={selectedFarm}
@@ -224,7 +214,6 @@ const styles = {
     marginBottom: '20px',
     width: '100%',
     fontWeight: 'bold',
-    transition: 'background-color 0.3s',
   },
   noFarmMsg: {
     backgroundColor: '#fff3e0',

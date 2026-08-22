@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { getAlerts, getAllFarms } from '../services/api';
 
 function AdminDashboard() {
-  const [user, setUser] = useState(null);
   const [alerts, setAlerts] = useState([]);
   const [farms, setFarms] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,9 +17,8 @@ function AdminDashboard() {
       navigate('/login');
       return;
     }
-    setUser(JSON.parse(userData));
     loadData();
-  }, []);
+  }, [navigate]);
 
   const loadData = async () => {
     try {
@@ -48,16 +46,6 @@ function AdminDashboard() {
 
   return (
     <div style={styles.container}>
-      {/* Header */}
-      <div style={styles.header}>
-        <h1 style={styles.title}>🐓 Farm Biosecurity Portal</h1>
-        <div style={styles.headerRight}>
-          <span style={styles.userName}>👋 Welcome, {user?.name || 'Admin'}!</span>
-          <button onClick={handleLogout} style={styles.logoutBtn}>Logout</button>
-        </div>
-      </div>
-
-      {/* Stats Cards */}
       <div style={styles.statsContainer}>
         <div style={styles.statCard}>
           <h3>Total Farms</h3>
@@ -77,7 +65,6 @@ function AdminDashboard() {
         </div>
       </div>
 
-      {/* Alerts Section */}
       <div style={styles.section}>
         <h2 style={styles.sectionTitle}>🔔 Recent Alerts</h2>
         {alerts.length === 0 ? (
@@ -98,7 +85,6 @@ function AdminDashboard() {
         )}
       </div>
 
-      {/* Farms Section */}
       <div style={styles.section}>
         <h2 style={styles.sectionTitle}>🏠 Recent Farms</h2>
         {farms.length === 0 ? (
@@ -128,36 +114,8 @@ const styles = {
     maxWidth: '1200px',
     margin: '0 auto',
     fontFamily: 'Arial, sans-serif',
-  },
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '15px 20px',
-    backgroundColor: '#2E7D32',
-    color: 'white',
-    borderRadius: '8px',
-    marginBottom: '20px',
-  },
-  title: {
-    margin: 0,
-    fontSize: '24px',
-  },
-  headerRight: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '15px',
-  },
-  userName: {
-    fontSize: '16px',
-  },
-  logoutBtn: {
-    padding: '8px 16px',
-    backgroundColor: '#c62828',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
+    backgroundColor: '#f5f5f5',
+    minHeight: '100vh',
   },
   statsContainer: {
     display: 'grid',

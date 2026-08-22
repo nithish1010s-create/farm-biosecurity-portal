@@ -40,7 +40,6 @@ function Profile() {
         location
       });
 
-      // Update local storage
       const updatedUser = { ...user, ...res.data.user };
       localStorage.setItem('user', JSON.stringify(updatedUser));
       setUser(updatedUser);
@@ -176,19 +175,7 @@ const styles = {
     border: '1px solid #ddd',
     borderRadius: '6px',
     fontSize: '16px',
-    transition: 'border-color 0.3s',
     outline: 'none',
-  },
-  input: {
-    padding: '12px 14px',
-    border: '1px solid #ddd',
-    borderRadius: '6px',
-    fontSize: '16px',
-    transition: 'border-color 0.3s',
-    outline: 'none',
-  },
-  inputFocus: {
-    borderColor: '#2E7D32',
   },
   button: {
     padding: '14px',
@@ -200,14 +187,6 @@ const styles = {
     fontWeight: 'bold',
     cursor: 'pointer',
     marginTop: '10px',
-    transition: 'background-color 0.3s',
-  },
-  buttonHover: {
-    backgroundColor: '#1B5E20',
-  },
-  buttonDisabled: {
-    backgroundColor: '#a5d6a7',
-    cursor: 'not-allowed',
   },
   success: {
     backgroundColor: '#e8f5e9',
