@@ -11,7 +11,6 @@ function AdminDashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user is logged in
     const userData = localStorage.getItem('user');
     if (!userData) {
       navigate('/login');
@@ -24,7 +23,6 @@ function AdminDashboard() {
     try {
       const alertsRes = await getAlerts();
       setAlerts(alertsRes.data.alerts || []);
-      
       const farmsRes = await getAllFarms();
       setFarms(farmsRes.data.farms || []);
     } catch (error) {
@@ -32,12 +30,6 @@ function AdminDashboard() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    navigate('/login');
   };
 
   if (loading) {

@@ -27,13 +27,11 @@ function FarmerDashboard() {
     try {
       const farmsRes = await getMyFarms();
       setFarms(farmsRes.data.farms || []);
-
       if (farmsRes.data.farms && farmsRes.data.farms.length > 0) {
         const farmId = farmsRes.data.farms[0].id;
         const complianceRes = await getComplianceScore(farmId);
         setCompliance(complianceRes.data);
       }
-
       const alertsRes = await getAlerts();
       setAlerts(alertsRes.data.alerts || []);
     } catch (error) {
@@ -41,12 +39,6 @@ function FarmerDashboard() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    navigate('/login');
   };
 
   if (loading) {
@@ -73,9 +65,7 @@ function FarmerDashboard() {
           <p style={{...styles.statNumber, color: getScoreColor(compliance?.latest_score || 0)}}>
             {compliance?.latest_score || 0}%
           </p>
-          <p style={styles.statLabel}>
-            {getScoreLabel(compliance?.latest_score || 0)}
-          </p>
+          <p style={styles.statLabel}>{getScoreLabel(compliance?.latest_score || 0)}</p>
         </div>
         <div style={styles.statCard}>
           <h3>🏠 My Farms</h3>
@@ -112,18 +102,13 @@ function FarmerDashboard() {
       <div style={styles.section}>
         <h2 style={styles.sectionTitle}>🏠 My Farms</h2>
         {farms.length === 0 ? (
-          <p style={styles.noData}>No farms registered yet. Contact admin to add a farm.</p>
+          <p style={styles.noData}>No farms registered yet.</p>
         ) : (
           farms.map((farm) => (
             <div key={farm.id} style={styles.farmCard}>
               <div style={styles.farmInfo}>
                 <strong style={styles.farmName}>{farm.name}</strong>
-                <span style={styles.farmDetails}>
-                  🐔 {farm.livestock_type} • {farm.livestock_count} animals
-                </span>
-                <span style={styles.farmDetails}>
-                  📍 Latitude: {farm.latitude}, Longitude: {farm.longitude}
-                </span>
+                <span style={styles.farmDetails}>🐔 {farm.livestock_type} • {farm.livestock_count} animals</span>
               </div>
               <div style={styles.farmScore}>
                 <span style={styles.scoreLabel}>Score</span>
@@ -149,9 +134,7 @@ function FarmerDashboard() {
               <div style={styles.alertContent}>
                 <strong>{alert.title}</strong>
                 <p style={styles.alertDesc}>{alert.description}</p>
-                <small style={styles.alertDate}>
-                  {new Date(alert.created_at).toLocaleDateString()}
-                </small>
+                <small style={styles.alertDate}>{new Date(alert.created_at).toLocaleDateString()}</small>
               </div>
             </div>
           ))
