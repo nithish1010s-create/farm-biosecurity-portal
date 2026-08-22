@@ -1,0 +1,1 @@
+postgresql://farm_biosecurity_portal_db_user:TfKBLxISCusn9Bv3fhhm52yWCOeHajZ5@dpg-da4tnpu417fc73dhfev0-a/farm_biosecurity_portal_db
