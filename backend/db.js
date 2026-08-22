@@ -2,20 +2,20 @@
 
 const { Pool } = require('pg');
 
-// Create connection pool using DATABASE_URL
+// For Render PostgreSQL
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
-    rejectUnauthorized: false,  // Required for Render PostgreSQL
+    rejectUnauthorized: false,
   },
 });
 
 // Test connection
 pool.connect((err, client, release) => {
   if (err) {
-    console.error('❌ Error connecting to database:', err.message);
+    console.error('❌ Database error:', err.message);
   } else {
-    console.log('✅ Connected to PostgreSQL database successfully!');
+    console.log('✅ Database connected!');
     release();
   }
 });
