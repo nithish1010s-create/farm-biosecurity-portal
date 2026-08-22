@@ -22,11 +22,15 @@ function Login() {
       localStorage.setItem('user', JSON.stringify(res.data.user));
 
       const role = res.data.user.role;
-      if (role === 'farmer') navigate('/farmer/dashboard');
-      else if (role === 'vet') navigate('/vet/dashboard');
-      else if (role === 'admin') navigate('/admin/dashboard');
-      else navigate('/');
-
+      if (role === 'farmer') {
+        navigate('/farmer/dashboard');
+      } else if (role === 'vet') {
+        navigate('/vet/dashboard');
+      } else if (role === 'admin') {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/');
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed ❌');
     } finally {
