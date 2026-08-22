@@ -2,9 +2,11 @@
 
 import axios from 'axios';
 
+// Use environment variable or fallback to Render backend URL
 const API = axios.create({
-  baseURL: 'http://localhost:5001/api',  // ← Should be 5001
+  baseURL: process.env.REACT_APP_API_URL || 'https://farm-biosecurity-portal-backend.onrender.com/api',
 });
+
 // Add token to every request
 API.interceptors.request.use((req) => {
   const token = localStorage.getItem('token');
@@ -39,5 +41,10 @@ export const getComplianceScore = (farmId) => API.get(`/checklists/compliance/${
 // ============================================
 export const createAlert = (data) => API.post('/alerts', data);
 export const getAlerts = () => API.get('/alerts');
+
+// ============================================
+// PROFILE API
+// ============================================
+export const updateProfile = (data) => API.put('/auth/profile', data);
 
 export default API;
