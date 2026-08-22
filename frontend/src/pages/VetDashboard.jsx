@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { getAllFarms, getAlerts } from '../services/api';
 
 function VetDashboard() {
-  const [user, setUser] = useState(null);
   const [farms, setFarms] = useState([]);
   const [alerts, setAlerts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -17,15 +16,13 @@ function VetDashboard() {
       navigate('/login');
       return;
     }
-    setUser(JSON.parse(userData));
     loadData();
-  }, []);
+  }, [navigate]);  // ← Added navigate here
 
   const loadData = async () => {
     try {
       const farmsRes = await getAllFarms();
       setFarms(farmsRes.data.farms || []);
-      
       const alertsRes = await getAlerts();
       setAlerts(alertsRes.data.alerts || []);
     } catch (error) {
@@ -35,33 +32,16 @@ function VetDashboard() {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    navigate('/login');
-  };
-
   if (loading) {
     return <div style={styles.loading}>Loading...</div>;
   }
 
-  // Calculate risk counts
   const highRisk = farms.filter(f => (f.biosecurity_score || 0) < 60).length;
   const mediumRisk = farms.filter(f => (f.biosecurity_score || 0) >= 60 && (f.biosecurity_score || 0) < 80).length;
   const lowRisk = farms.filter(f => (f.biosecurity_score || 0) >= 80).length;
 
   return (
     <div style={styles.container}>
-      {/* Header */}
-      <div style={styles.header}>
-        <h1 style={styles.title}>🐓 Farm Biosecurity Portal</h1>
-        <div style={styles.headerRight}>
-          <span style={styles.userName}>👨‍⚕️ Welcome, {user?.name || 'Vet'}!</span>
-          <button onClick={handleLogout} style={styles.logoutBtn}>Logout</button>
-        </div>
-      </div>
-
-      {/* Stats Cards */}
       <div style={styles.statsContainer}>
         <div style={styles.statCard}>
           <h3>🏠 Total Farms</h3>
@@ -81,7 +61,6 @@ function VetDashboard() {
         </div>
       </div>
 
-      {/* All Farms Section */}
       <div style={styles.section}>
         <h2 style={styles.sectionTitle}>🏠 All Farms</h2>
         {farms.length === 0 ? (
@@ -91,12 +70,8 @@ function VetDashboard() {
             <div key={farm.id} style={styles.farmCard}>
               <div style={styles.farmInfo}>
                 <strong style={styles.farmName}>{farm.name}</strong>
-                <span style={styles.farmDetails}>
-                  🐔 {farm.livestock_type} • {farm.livestock_count} animals
-                </span>
-                <span style={styles.farmDetails}>
-                  👨‍🌾 Farmer: {farm.farmer_name || 'Unknown'} • 📍 {farm.farmer_location || 'N/A'}
-                </span>
+                <span style={styles.farmDetails}>🐔 {farm.livestock_type} • {farm.livestock_count} animals</span>
+                <span style={styles.farmDetails}>👨‍🌾 Farmer: {farm.farmer_name || 'Unknown'}</span>
               </div>
               <div style={styles.farmScore}>
                 <span style={styles.scoreLabel}>Score</span>
@@ -113,7 +88,6 @@ function VetDashboard() {
         )}
       </div>
 
-      {/* Alerts Section */}
       <div style={styles.section}>
         <h2 style={styles.sectionTitle}>🔔 Recent Alerts</h2>
         {alerts.length === 0 ? (
@@ -127,9 +101,7 @@ function VetDashboard() {
               <div style={styles.alertContent}>
                 <strong>{alert.title}</strong>
                 <p style={styles.alertDesc}>{alert.description}</p>
-                <small style={styles.alertDate}>
-                  {new Date(alert.created_at).toLocaleDateString()}
-                </small>
+                <small style={styles.alertDate}>{new Date(alert.created_at).toLocaleDateString()}</small>
               </div>
             </div>
           ))
@@ -147,36 +119,6 @@ const styles = {
     fontFamily: 'Arial, sans-serif',
     backgroundColor: '#f5f5f5',
     minHeight: '100vh',
-  },
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '15px 20px',
-    backgroundColor: '#2E7D32',
-    color: 'white',
-    borderRadius: '8px',
-    marginBottom: '20px',
-  },
-  title: {
-    margin: 0,
-    fontSize: '24px',
-  },
-  headerRight: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '15px',
-  },
-  userName: {
-    fontSize: '16px',
-  },
-  logoutBtn: {
-    padding: '8px 16px',
-    backgroundColor: '#c62828',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
   },
   statsContainer: {
     display: 'grid',
