@@ -1,0 +1,1 @@
+postgresql://farm_biosecurity_portal_db_sob5_user:KdUBnTV8vLt89XOX4chwma96rOI5TfSk@dpg-da5j6qmk1f9s738qio20-a.singapore-postgres.render.com/farm_biosecurity_portal_db_sob5
