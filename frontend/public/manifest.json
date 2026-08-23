@@ -1,25 +1,56 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "name": "Farm Biosecurity Portal",
+  "short_name": "Farm Portal",
+  "description": "Digital farm biosecurity management system for pig and poultry farms",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#2E7D32",
+  "background_color": "#ffffff",
+  "categories": ["agriculture", "farming", "business"],
+  "lang": "en",
+  "dir": "ltr",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "/logo192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "logo192.png",
+      "src": "/logo512.png",
+      "sizes": "512x512",
       "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "purpose": "any maskable"
     }
   ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "splash_pages": null,
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "Go to dashboard",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/logo192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Checklist",
+      "short_name": "Checklist",
+      "description": "Submit daily checklist",
+      "url": "/farmer/dashboard"
+    },
+    {
+      "name": "Alerts",
+      "short_name": "Alerts",
+      "description": "View alerts",
+      "url": "/farmer/dashboard"
+    }
+  ]
 }
